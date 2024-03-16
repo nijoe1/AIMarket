@@ -1,0 +1,38 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: agentHandlerV3
+    network: fuji
+    source:
+      abi: agentHandlerV3
+      address: "0xcF3FE5803d7cE8b73A0E2Ab7cD366B39e892b0b7"
+      startBlock: 30052887
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Creator
+        - User
+        - Agent
+        - SubscriptionEntity
+        - RewardMechanism
+        - RoundWinners
+        - Round
+      abis:
+        - name: agentHandlerV3
+          file: agentHandlerV3/abis/agentHandlerV3.json
+      eventHandlers:
+        - event: RoundRewardsDistributed(bytes32,bytes32,uint32[],address[])
+          handler: handleRoundRewardsDistributed
+        - event: agentRegistered(string,string,uint32,address,address,uint256,uint256,string,string,bool)
+          handler: handleagentRegistered
+        - event: agentSubscriptionPurchased(uint32,uint256,string,address,address)
+          handler: handleagentSubscriptionPurchased
+        - event: agentVersionRegistered(uint32,string,uint32,address,string)
+          handler: handleagentVersionRegistered
+        - event: rewardMechanismRegistered(string,string,bytes32,uint256[])
+          handler: handlerewardMechanismRegistered
+      file: agentHandlerV3/agentHandlerV3.wasm
